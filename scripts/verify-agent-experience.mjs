@@ -2,7 +2,6 @@ import { spawn } from "node:child_process";
 import { createHash } from "node:crypto";
 import {
   chmod,
-  cp,
   copyFile,
   mkdir,
   mkdtemp,
@@ -410,15 +409,9 @@ try {
 
 async function createTargets(root, includeManaged) {
   const fixtures = await createAgentEvaluationFixtures(root, repositoryRoot);
-  const notesElectron = join(root, "notes-electron");
   const largeJavascript = join(root, "large-app");
   await mkdir(join(largeJavascript, "lib"), { recursive: true });
   await Promise.all([
-    cp(
-      join(repositoryRoot, "website/public/examples/notes-electron"),
-      notesElectron,
-      { recursive: true },
-    ),
     writeFile(
       join(largeJavascript, "package.json"),
       '{"name":"large-app","main":"main.js"}\n',
@@ -467,7 +460,6 @@ async function createTargets(root, includeManaged) {
   return {
     native: "/bin/true",
     ...fixtures,
-    notesElectron,
     largeJavascript,
     managed: join(managedOutput, "AgentEval.dll"),
     ...(includeManaged

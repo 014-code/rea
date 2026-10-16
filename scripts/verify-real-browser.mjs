@@ -365,7 +365,6 @@ try {
       throw new Error(
         `Demo ${variant} captured output was ${JSON.stringify(observedResult)}, expected ${JSON.stringify(expectedResult)}`,
       );
-    demoResults[variant] = observedResult;
   }
   const demoComparison = await runScenarioComparisonCli(...demoCaptures);
   const demoComparisonResult = demoComparison.normalized_result;
